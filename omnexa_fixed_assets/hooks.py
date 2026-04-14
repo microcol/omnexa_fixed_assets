@@ -1,5 +1,5 @@
 app_name = "omnexa_fixed_assets"
-app_title = "Omnexa Fixed Assets"
+app_title = "ErpGenEx — Fixed Assets"
 app_publisher = "Omnexa"
 app_description = "Fixed assets management vertical"
 app_email = "dev@omnexa.com"
