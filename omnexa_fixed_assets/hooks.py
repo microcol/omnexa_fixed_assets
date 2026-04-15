@@ -1,25 +1,24 @@
 app_name = "omnexa_fixed_assets"
 app_title = "ErpGenEx — Fixed Assets"
 app_publisher = "Omnexa"
-app_description = "Fixed assets management vertical"
+app_description = "Fixed assets (IAS 16 / IFRS cost model: capitalization, depreciation, derecognition)"
 app_email = "dev@omnexa.com"
 app_license = "mit"
 
 # Apps
 # ------------------
 
-required_apps = ["omnexa_core"]
+required_apps = ["omnexa_core", "omnexa_accounting"]
 
 # Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "omnexa_fixed_assets",
-# 		"logo": "/assets/omnexa_fixed_assets/logo.png",
-# 		"title": "Omnexa Fixed Assets",
-# 		"route": "/omnexa_fixed_assets",
-# 		"has_permission": "omnexa_fixed_assets.api.permission.has_app_permission"
-# 	}
-# ]
+add_to_apps_screen = [
+	{
+		"name": "omnexa_fixed_assets",
+		"logo": "/assets/omnexa_fixed_assets/fixed-assets.svg",
+		"title": "Fixed Assets",
+		"route": "/app/fixed-assets",
+	}
+]
 
 # Includes in <head>
 # ------------------
@@ -43,7 +42,9 @@ required_apps = ["omnexa_core"]
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+doctype_js = {
+	"Fixed Asset Auto Depreciation Policy": "public/js/fixed_asset_auto_depreciation_policy.js",
+}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -117,10 +118,15 @@ required_apps = ["omnexa_core"]
 # -----------
 # Permissions evaluated in scripted ways
 
-# permission_query_conditions = {
-# 	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
-# }
-#
+permission_query_conditions = {
+	"Fixed Asset Category": "omnexa_fixed_assets.permissions.fixed_asset_category_query_conditions",
+	"Fixed Asset": "omnexa_fixed_assets.permissions.fixed_asset_query_conditions",
+	"Fixed Asset Acquisition": "omnexa_fixed_assets.permissions.fixed_asset_acquisition_query_conditions",
+	"Fixed Asset Depreciation Entry": "omnexa_fixed_assets.permissions.fixed_asset_depreciation_entry_query_conditions",
+	"Fixed Asset Disposal": "omnexa_fixed_assets.permissions.fixed_asset_disposal_query_conditions",
+	"Fixed Asset Auto Depreciation Policy": "omnexa_fixed_assets.permissions.fixed_asset_auto_depreciation_policy_query_conditions",
+}
+
 # has_permission = {
 # 	"Event": "frappe.desk.doctype.event.event.has_permission",
 # }
@@ -137,34 +143,37 @@ required_apps = ["omnexa_core"]
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Fixed Asset Category": {
+		"before_validate": "omnexa_fixed_assets.permissions.populate_company_branch_from_user_context",
+	},
+	"Fixed Asset": {
+		"before_validate": "omnexa_fixed_assets.permissions.populate_company_branch_from_user_context",
+		"validate": "omnexa_fixed_assets.permissions.enforce_branch_access_for_doc",
+	},
+	"Fixed Asset Acquisition": {
+		"before_validate": "omnexa_fixed_assets.permissions.populate_company_branch_from_user_context",
+		"validate": "omnexa_fixed_assets.permissions.enforce_branch_access_for_doc",
+	},
+	"Fixed Asset Depreciation Entry": {
+		"before_validate": "omnexa_fixed_assets.permissions.populate_company_branch_from_user_context",
+		"validate": "omnexa_fixed_assets.permissions.enforce_branch_access_for_doc",
+	},
+	"Fixed Asset Disposal": {
+		"before_validate": "omnexa_fixed_assets.permissions.populate_company_branch_from_user_context",
+		"validate": "omnexa_fixed_assets.permissions.enforce_branch_access_for_doc",
+	},
+	"Fixed Asset Auto Depreciation Policy": {
+		"before_validate": "omnexa_fixed_assets.permissions.populate_company_branch_from_user_context",
+	},
+}
 
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"omnexa_fixed_assets.tasks.all"
-# 	],
-# 	"daily": [
-# 		"omnexa_fixed_assets.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"omnexa_fixed_assets.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"omnexa_fixed_assets.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"omnexa_fixed_assets.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+	"monthly": ["omnexa_fixed_assets.tasks.run_month_end_depreciation_jobs"],
+}
 
 # Testing
 # -------

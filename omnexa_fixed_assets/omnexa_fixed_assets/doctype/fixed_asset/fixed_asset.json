@@ -1,0 +1,247 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "naming_series:",
+ "creation": "2026-04-16 10:00:00",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "asset_name",
+  "company",
+  "branch",
+  "category",
+  "status",
+  "section_ifrs",
+  "measurement_model",
+  "section_cost",
+  "acquisition_cost",
+  "capitalization_date",
+  "section_depreciation",
+  "depreciation_method",
+  "depreciation_start_date",
+  "useful_life_months",
+  "salvage_value",
+  "depreciable_amount",
+  "declining_balance_rate_annual",
+  "total_estimated_units",
+  "units_depreciated_to_date",
+  "accumulated_depreciation",
+  "net_book_value",
+  "last_depreciation_posting_date",
+  "section_accounts",
+  "asset_gl_account",
+  "accumulated_depreciation_gl_account",
+  "depreciation_expense_gl_account",
+  "section_tracking",
+  "asset_tag",
+  "qr_payload",
+  "barcode",
+  "rfid_tag",
+  "section_accounting",
+  "capitalization_journal_entry",
+  "notes"
+ ],
+ "fields": [
+  {
+   "default": "FA-.#####",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "FA-.#####",
+   "reqd": 1
+  },
+  {
+   "fieldname": "asset_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Asset Name",
+   "reqd": 1
+  },
+  {"fieldname": "company", "fieldtype": "Link", "label": "Company", "options": "Company", "reqd": 1, "in_list_view": 1},
+  {"fieldname": "branch", "fieldtype": "Link", "label": "Branch", "options": "Branch", "reqd": 1, "in_list_view": 1},
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "label": "Category",
+   "options": "Fixed Asset Category",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "default": "draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "draft\nacquired\ntagged\nin_use\ntransferred\nunder_maintenance\nfully_depreciated\ndisposed",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_ifrs",
+   "fieldtype": "Section Break",
+   "label": "IAS 16 / IFRS",
+   "description": "Property, plant and equipment — cost or revaluation model; depreciate depreciable amount over useful life."
+  },
+  {
+   "default": "Cost Model",
+   "fieldname": "measurement_model",
+   "fieldtype": "Select",
+   "label": "Measurement model",
+   "options": "Cost Model\nRevaluation Model",
+   "description": "IAS 16.30–31 — After recognition, measure at cost or revalued amount. Revaluation ledger is not automated in this version."
+  },
+  {"fieldname": "section_cost", "fieldtype": "Section Break", "label": "Cost & dates"},
+  {
+   "default": "0",
+   "fieldname": "acquisition_cost",
+   "fieldtype": "Currency",
+   "label": "Acquisition cost",
+   "description": "Set by capitalization posting; may be zero until acquisition is submitted."
+  },
+  {
+   "fieldname": "capitalization_date",
+   "fieldtype": "Date",
+   "label": "Capitalization date"
+  },
+  {
+   "fieldname": "section_depreciation",
+   "fieldtype": "Section Break",
+   "label": "Depreciation",
+   "description": "IAS 16.43–59 — Systematic allocation of depreciable amount over useful life."
+  },
+  {
+   "default": "None",
+   "fieldname": "depreciation_method",
+   "fieldtype": "Select",
+   "label": "Depreciation method",
+   "options": "None\nStraight Line\nDeclining Balance\nUnits of Production",
+   "reqd": 1,
+   "description": "IAS 16.43 — Choose a systematic basis when the asset is ready for use; None until policy is applied."
+  },
+  {
+   "fieldname": "depreciation_start_date",
+   "fieldtype": "Date",
+   "label": "Depreciation start date"
+  },
+  {
+   "fieldname": "useful_life_months",
+   "fieldtype": "Int",
+   "label": "Useful life (months)"
+  },
+  {
+   "default": "0",
+   "fieldname": "salvage_value",
+   "fieldtype": "Currency",
+   "label": "Residual value",
+   "description": "IAS 16.6 — Estimated amount currently obtainable from disposal less costs, if asset were already of age and condition at end of useful life."
+  },
+  {
+   "fieldname": "depreciable_amount",
+   "fieldtype": "Currency",
+   "label": "Depreciable amount",
+   "read_only": 1,
+   "description": "IAS 16.53 — Cost less residual value (cost model)."
+  },
+  {
+   "fieldname": "declining_balance_rate_annual",
+   "fieldtype": "Percent",
+   "label": "Declining balance annual rate %",
+   "description": "Annual percentage applied to carrying amount (monthly = annual / 12). Used when method is Declining Balance."
+  },
+  {
+   "fieldname": "total_estimated_units",
+   "fieldtype": "Int",
+   "label": "Total estimated units (UoP)",
+   "description": "IAS 16.56 — Total expected production units for units-of-production method."
+  },
+  {
+   "default": "0",
+   "fieldname": "units_depreciated_to_date",
+   "fieldtype": "Int",
+   "label": "Units depreciated to date",
+   "read_only": 1,
+   "description": "Running total of units posted via depreciation entries (UoP)."
+  },
+  {
+   "default": "0",
+   "fieldname": "accumulated_depreciation",
+   "fieldtype": "Currency",
+   "label": "Accumulated depreciation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "net_book_value",
+   "fieldtype": "Currency",
+   "label": "Carrying amount",
+   "read_only": 1,
+   "description": "IAS 16.6 — Under cost model: cost less accumulated depreciation and impairment (impairment not automated here)."
+  },
+  {
+   "fieldname": "last_depreciation_posting_date",
+   "fieldtype": "Date",
+   "label": "Last depreciation posting",
+   "read_only": 1
+  },
+  {"fieldname": "section_accounts", "fieldtype": "Section Break", "label": "GL accounts (override)"},
+  {
+   "fieldname": "asset_gl_account",
+   "fieldtype": "Link",
+   "label": "Asset account",
+   "options": "GL Account"
+  },
+  {
+   "fieldname": "accumulated_depreciation_gl_account",
+   "fieldtype": "Link",
+   "label": "Accumulated depreciation account",
+   "options": "GL Account"
+  },
+  {
+   "fieldname": "depreciation_expense_gl_account",
+   "fieldtype": "Link",
+   "label": "Depreciation expense account",
+   "options": "GL Account"
+  },
+  {"fieldname": "section_tracking", "fieldtype": "Section Break", "label": "Identification (no inventory link)"},
+  {
+   "fieldname": "asset_tag",
+   "fieldtype": "Data",
+   "label": "Physical asset tag",
+   "description": "Human-readable tag on the asset label."
+  },
+  {
+   "fieldname": "qr_payload",
+   "fieldtype": "Data",
+   "label": "QR / scan payload",
+   "description": "Stable identifier for mobile scan APIs (e.g. FA name or UUID)."
+  },
+  {"fieldname": "barcode", "fieldtype": "Data", "label": "Barcode"},
+  {"fieldname": "rfid_tag", "fieldtype": "Data", "label": "RFID tag"},
+  {"fieldname": "section_accounting", "fieldtype": "Section Break", "label": "Accounting"},
+  {
+   "fieldname": "capitalization_journal_entry",
+   "fieldtype": "Link",
+   "label": "Capitalization journal entry",
+   "options": "Journal Entry",
+   "read_only": 1
+  },
+  {"fieldname": "notes", "fieldtype": "Small Text", "label": "Notes"}
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-04-16 10:00:00",
+ "module": "Omnexa Fixed Assets",
+ "name": "Fixed Asset",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1, "report": 1, "export": 1, "share": 1, "print": 1, "email": 1},
+  {"role": "Accounts Manager", "read": 1, "write": 1, "create": 1, "delete": 0, "report": 1, "export": 1, "share": 0, "print": 1, "email": 1},
+  {"role": "Accounts User", "read": 1, "write": 1, "create": 1, "delete": 0, "report": 1, "export": 0, "share": 0, "print": 1, "email": 0}
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
